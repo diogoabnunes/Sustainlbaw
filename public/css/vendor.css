@@ -1,0 +1,80 @@
+#vendor-page .vendorImg img {
+  height: 400px;
+  width: 1200px;
+  max-width: 100%;
+  object-fit: cover;
+  display: flex;
+  border-radius: var(--radius);
+}
+
+#vendor-page h2,
+#vendor-page h3 {
+  margin-bottom: 16px;
+}
+
+.vendorInformation p {
+  margin-bottom: 8px;
+}
+
+#carrousselCategories {
+  position: relative;
+  display: inline-block;
+}
+
+#vendor-page #products img {
+  object-fit: cover;
+  width: 400px;
+  height: 150px;
+  background-color: lightgray;
+  border-radius: 0.5rem;
+  position: relative;
+}
+
+.product-card {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.product-card h3 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  visibility: hidden;
+  opacity: 0;
+}
+
+#vendor-page .product-card h3 {
+  visibility: visible;
+  opacity: 1;
+}
+
+#vendor-page .product-card img {
+  filter: brightness(70%);
+}
+
+#vendor-page #products img {
+  object-fit: cover;
+  width: 400px;
+  height: 150px;
+  background-color: lightgray;
+  border-radius: 0.5rem;
+}
+
+#vendor-page #products .col-xs-12 img {
+  margin-bottom: 20px;
+}
+
+#vendor-page #products img {
+  margin-top: 12px;
+  margin-bottom: 12px;
+  width: 100%;
+}
+
+#vendor-page > section {
+  margin-bottom: 40px;
+}
+#vendor-description {
+  width: 80%;
+}

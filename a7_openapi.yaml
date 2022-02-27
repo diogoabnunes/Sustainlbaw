@@ -1,0 +1,1635 @@
+openapi: 3.0.0
+
+info:
+  version: 1.0.0
+  title: 'LBAW2144 - Sustainlbaw'
+  description: 'Web Resources Specification (A7)'
+
+servers:
+# Added by API Auto Mocking Plugin
+- description: SwaggerHub API Auto Mocking
+  url: https://virtserver.swaggerhub.com/tiago-falves/SustainlbawLbaw44/1.0.0
+- url: http://lbaw2144.lbaw-prod.fe.up.pt
+  description: Production server
+- url: http://localhost:8000
+  description: Development server
+
+externalDocs:
+  description: Find more info here...
+  url: https://git.fe.up.pt/lbaw/lbaw2021/lbaw2144
+
+tags:
+  - name: 'M01: Authentication & User'
+  - name: 'M02: Home and Search'
+  - name: 'M03: Blog'
+  - name: 'M04: Events'
+  - name: 'M05: Market'
+
+paths:
+  #TODO GLobal search
+  /home:
+    get:
+      operationId: M201
+      summary: Home page
+      description: 'Home page. Acess: PUB'
+      tags:
+        - 'M02: Home and Search'
+      responses:
+        '200':
+          description: 'OK. Show [UI01](https://git.fe.up.pt/lbaw/lbaw2021/lbaw2144/-/wikis/er#ui01-home)'
+        '404':
+          description: Home page not Found
+        '429':
+          description: Too Many Requests in Home Page
+        default:
+          description: Default
+
+  /api/search/{search_word}:
+    get:
+      operationId: M202
+      summary: Searching content
+      description: 'Searching content. Acess: PUB'
+      tags:
+        - 'M02: Home and Search'
+      parameters:
+        - in: path
+          name: search_word
+          schema:
+            type: string
+          required: true
+      responses:
+        '200':
+          description: 'OK. Show [UI01](https://git.fe.up.pt/lbaw/lbaw2021/lbaw2144/-/wikis/er#ui01-home)'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:        
+                    start_date:
+                      type: "string"
+                      format: "date-time"
+                    end_date:
+                      type: "string"
+                      format: "date-time"
+                    price:          # <!--- form field name
+                      type: integer
+                      minimum: 0
+                    name:
+                      type: string
+                    image_path:
+                      type: string
+                    description:
+                      type: string
+                    editor:
+                      type: integer
+                    location:
+                      type: integer
+                  example:
+                  - start_date: 2020/01/01
+                    end_date: 2020/01/02
+                    price: 5
+                    name: João Lopes
+                    image_path: ../asset/jlopes.jpg
+                    description: Eu sou o Jlopes e vou dar 20 a este grupo
+                    editor: 15
+                    location: 1
+
+                  - start_date: 2020/01/03
+                    end_date: 2020/01/04
+                    price: 10
+                    name: Sérgio Nunes
+                    image_path: ../asset/sergio.jpg
+                    description: Eu sou o Sergio e vou dar 20 a este grupo
+                    editor: 10
+                    location: 2
+               
+                  
+        '404':
+          description: Home page not Found
+        '429':
+          description: Too Many Requests in Home Page
+        default:
+          description: Default
+
+   #TODO Adicionar Search
+   #TODO Adicionar ban user
+   #TODO Editar role.
+  /login:
+    get:
+      operationId: M0101
+      summary: Showing login form
+      description: 'Login form. Acess: PUB'
+      tags:
+        - 'M01: Authentication & User'
+      responses:
+        '200':
+          description: 'OK. Show [UI06](https://git.fe.up.pt/lbaw/lbaw2021/lbaw2144/-/wikis/er#ui06-sign-in)'
+        '401':
+          description: 'ERROR. Try again'
+        '404':
+          description: Login not Found
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+          
+    post:
+      operationId: M0102
+      summary: 'Login Action'
+      description: 'Processes the login form submission. Access: PUB'
+      tags:
+        - 'M01: Authentication & User'
+      #TODO Isto nao devia estar nos parameters?
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:          # <!--- form field name
+                  type: string
+                password:    # <!--- form field name
+                  type: string
+              required:
+                - email
+                - password
+ 
+      responses:
+        '302':
+          description: 'Redirect after processing the login credentials.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                '302 Success':
+                    description: 'Successful authentication. Redirect to user profile.'
+                    value: '/'
+                '302 Error':
+                  description: 'Failed authentication. Redirect to login form.'
+                  value: '/login'
+        '204':
+          description: Created
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+    
+  /logout:
+    post:
+      operationId: M0103
+      summary: 'Logout Action'
+      description: 'Logout the current authenticated used. Access: USR'
+      tags:
+        - 'M01: Authentication & User'
+      responses:
+        '302':
+          description: 'Redirect after processing logout.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                302Success:
+                  description: 'Successful logout. Redirect to login form.'
+                  value: '/login'
+        '204':
+          description: Created
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+
+  /register:
+    get:
+      operationId: M0104
+      summary: Showing register form
+      description: 'register form. Acess: PUB'
+      tags:
+        - 'M01: Authentication & User'
+      responses:
+        '200':
+          description: 'OK. Show [UI06](https://git.fe.up.pt/lbaw/lbaw2021/lbaw2144/-/wikis/er#ui05-sign-up)'
+        '401':
+          description: 'ERROR. Try again'
+        '404':
+          description: Register not Found
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+          
+    post:
+      operationId: M0105
+      summary: 'Register Action'
+      description: 'Processes the register form submission. Access: PUB'
+      tags:
+        - 'M01: Authentication & User'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                email:          # <!--- form field name
+                  type: string
+                password:    # <!--- form field name
+                  type: string
+                confirm_password:
+                  type: string
+                subscribe:
+                  type: boolean
+                accept_privacy:
+                  type: boolean
+              required:
+                - first_name
+                - last_name
+                - email
+                - password
+                - confirm_password
+                - accept_privacy
+      responses:
+        '302':
+          description: 'Redirect after processing the register credentials.'
+          headers:
+            Location:
+              schema:
+                type: string
+              examples:
+                '302 Success':
+                    description: 'Successful authentication. Redirect to user profile.'
+                    value: '/'
+                '302 Error':
+                  description: 'Failed authentication. Redirect to register form.'
+                  value: '/register'
+        '204':
+          description: Created Account successfully
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+
+  /password_reset:
+    post:
+      operationId: M0107
+      summary: 'Passowrd Recovery Action'
+      description: 'Processes password recovery form and sends a reset link to the specified e-mail. Access: OWN'
+      tags:
+        - 'M01: Authentication & User'
+ 
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                email:          # <!--- form field name
+                  type: string
+              required:
+                - email 
+      responses:
+        '204':
+          description: Sent recovery e-mail
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default 
+  /admin:
+    get:
+      operationId: M0108
+      summary: View Administration page
+      description: 'Shows the Administration page. Acess: ADM'
+      tags:
+        - 'M01: Authentication & User'
+      responses:
+        '200':
+          description: 'OK. Show [UI14](https://git.fe.up.pt/lbaw/lbaw2021/lbaw2144/-/wikis/er#ui14-administration)'
+        '401':
+          description: 'ERROR. Try again'
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+  
+  #/user/{id}/ban:
+
+  
+  /blog:
+    get:
+      operationId: M0301
+      summary: All blog posts
+      description: 'Getting all blog posts. Acess: PUB'
+      tags:
+        - 'M03: Blog'
+      responses:
+        '200':
+          description: 'OK. All blog posts returned'
+        '401':
+          description: 'ERROR. Try again'
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+    
+    post:
+      operationId: M0302
+      summary: Add blog post
+      description: 'Adding a new blog post. Acess: EDI'
+      tags:
+        - 'M03: Blog'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                title:          # <!--- form field name
+                  type: string
+                content:
+                  type: string
+                image_path:
+                  type: string
+                author:
+                  type: string
+                editor:
+                  type: integer
+              required:
+                - title
+                - content
+                - image_path
+                - author
+                - editor
+      responses:
+        '201':
+          description: 'Post created sucessfully'
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+    
+
+
+  /api/blog/category/{category_id}:    
+    get:
+      operationId: M0303
+      summary: Find blog posts by category
+      description: 'Getting blog posts by category. Acess: PUB'
+      tags:
+        - 'M03: Blog'
+      parameters:
+        - in: path
+          name: category_id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'OK. Blog posts returned'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:        
+                    blog_post_id:
+                      type: integer
+                    title:
+                      type: string
+                    content:          # <!--- form field name
+                      type: string
+                    publication_date:
+                      type: string
+                      format: "date-time"
+                    image_path:
+                      type: string
+                    editor:
+                      type: integer
+                    author:
+                      type: string
+                  example:
+                  - blog_post_id: 1
+                    title: 'JLopes Post'
+                    content: 'Este é um blog post do João Lopes'
+                    publication_date: '2021/05/06'
+                    image_path: '../assets/posts.jpg'
+                    editor: 1
+                    author: 'jlopes'
+                  - blog_post_id: 2
+                    title: 'SNunes Post'
+                    content: 'Este é um blog post do Sérgio Nunes'
+                    publication_date: '2021/05/06'
+                    image_path: '../assets/posts.jpg'
+                    editor: 1
+                    author: 'snunes'
+        '401':
+          description: 'ERROR. Try again'
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+
+    post:
+      operationId: M0304
+      summary: Add category to blog
+      description: 'Adding a new category to blog. Acess: EDT'
+      tags:
+        - 'M03: Blog'
+
+      parameters:
+        - in: path
+          name: category_id
+          schema:
+            type: integer
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                content:          # <!--- form field name
+                  type: string
+              required:
+                - content
+
+      responses:
+        '201':
+          description: 'Comment created sucessfully'
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+          
+  /blog/{id}:    
+    get:
+      operationId: M0305
+      summary: Find blog post by ID
+      description: 'Getting a blog post. Acess: PUB'
+      tags:
+        - 'M03: Blog'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'OK. Blog post returned'
+        '401':
+          description: 'ERROR. Try again'
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+    put:
+      operationId: M0306
+      summary: Updating blog post
+      description: 'Updating an existing blog post. Acess: EDI'
+      tags:
+        - 'M03: Blog'
+        
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          
+      requestBody:
+        required: true
+        content: 
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string 
+                content:
+                  type: string
+                image_path:
+                  type: string
+                author:
+                  type: string
+                editor:
+                  type: integer
+              required:
+                - title
+                - content
+                - image_path
+                - author
+                - editor
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Blog post not found"
+        "405":
+          description: "Validation exception"
+        '204':
+          description: Created
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default   
+          
+  /api/blog/{id}: 
+    delete:
+      operationId: M0307
+      summary: Delete blog post 
+      description: 'Deleting an existing blog post. Acess: EDI'
+      tags:
+        - 'M03: Blog'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Blog post not found"
+        '204':
+          description: Created
+          
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+  /blog/{id}/edit:    
+    get:
+      operationId: M0308
+      summary: Find blog post edit form by id
+      description: 'Getting the edit blog post page. Acess: PUB'
+      tags:
+        - 'M03: Blog'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+      responses:
+        '200':
+          description: 'OK. Edit Blog post page returned'
+        '401':
+          description: 'ERROR. Try again'
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+
+  /api/blog/{id}/comment:
+    post:
+      operationId: M0309
+      summary: Add comment to blog post
+      description: 'Adding a new comment to blog post. Acess: USR'
+      tags:
+        - 'M03: Blog'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                content:          # <!--- form field name
+                  type: string
+              required:
+                - content
+
+      responses:
+        '201':
+          description: 'Comment created sucessfully'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:        
+                    comment_id:
+                      type: integer
+                    content:          # <!--- form field name
+                      type: string
+                    date:
+                      type: string
+                      format: "date-time"
+                    blog_post_id:
+                      type: integer
+                    user_id:
+                      type: integer
+                  example:
+                  - comment_id: 1
+                    content: "Este é o comentário com id = 1 ao blog post com id = 3 do user com id = 30!"
+                    date: "2021/05/05"
+                    blog_post_id: 3
+                    user_id: 30
+
+                  - comment_id: 2
+                    content: "Tá ganda nice!"
+                    date: "2021/05/05"
+                    blog_post_id: 3
+                    user_id: 31
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+
+  /api/blog/comment:
+    patch:
+      operationId: M0310
+      summary: Updating co content
+      description: 'Updating comment content. Access: OWN'
+      tags:
+        - 'M03: Blog'
+          
+      requestBody:
+        required: true
+        content: 
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                blog_post_id:
+                  type: integer 
+                comment_id:
+                  type: integer
+                content:
+                  type: string
+                
+              required:
+                - id
+                - comment_id
+
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Blog post not found"
+        "405":
+          description: "Validation exception"
+        '200':
+          description: Updated
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:        
+                    comment_id:
+                      type: integer
+                    content:          # <!--- form field name
+                      type: string
+                    date:
+                      type: string
+                      format: "date-time"
+                    blog_post_id:
+                      type: integer
+                    user_id:
+                      type: integer
+                  example:
+                  - comment_id: 1
+                    content: "Este é o comentário com id = 1 ao blog post com id = 3 do user com id = 30!"
+                    date: "2021/05/05"
+                    blog_post_id: 3
+                    user_id: 30
+
+                  - comment_id: 2
+                    content: "Tá ganda nice!"
+                    date: "2021/05/05"
+                    blog_post_id: 3
+                    user_id: 31
+        '429':
+          description: Too Many Requests
+        default:    
+          description: default 
+  /api/blog/comment/{id}/delete:
+    delete:
+      operationId: M0311
+      summary: Delete comment from blog post
+      description: 'Deleting comment from. Acess: OWN'
+      tags:
+        - 'M03: Blog'
+
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+
+     
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Blog post not found"
+        '204':
+          description: Created
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+
+  /events:
+    get:
+      operationId: M0401
+      summary: All events
+      description: 'Getting all events. Acess: PUB'
+      tags:
+        - 'M04: Events'
+      responses:
+        '200':
+          description: 'OK. All event posts returned'
+        '401':
+          description: 'ERROR. Try again'
+        '404':
+          description: Events Not Found
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+  /event : 
+    post:
+      operationId: M0402
+      summary: Add an event
+      description: 'Adding a new event. Acess: EDI'
+      tags:
+        - 'M04: Events'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                start_date:
+                  type: "string"
+                  format: "date-time"
+                end_date:
+                  type: "string"
+                  format: "date-time"
+                price:          # <!--- form field name
+                  type: integer
+                  minimum: 0
+                name:
+                  type: string
+                image_path:
+                  type: string
+                description:
+                  type: string
+                editor:
+                  type: integer
+                location:
+                  type: integer
+              required:
+                - start_date
+                - end_date
+                - price
+                - name
+                - image_path
+                - description
+                - editor
+                - location
+      responses:
+        '201':
+          description: 'Post created sucessfully'
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+
+  /api/event/today:
+    get:
+      operationId: M0403
+      summary: All events from today
+      description: 'Getting all events that happen in that day. Acess: PUB'
+      tags:
+        - 'M04: Events'
+      responses:
+        '200':
+          description: 'OK. All event posts from that day returned'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:        
+                    start_date:
+                      type: "string"
+                      format: "date-time"
+                    end_date:
+                      type: "string"
+                      format: "date-time"
+                    price:          # <!--- form field name
+                      type: integer
+                      minimum: 0
+                    name:
+                      type: string
+                    image_path:
+                      type: string
+                    description:
+                      type: string
+                    editor:
+                      type: integer
+                    location:
+                      type: integer
+                  example:
+                  - start_date: 2020/01/01 (today)
+                    end_date: 2020/01/02
+                    price: 5
+                    name: João Lopes
+                    image_path: ../asset/jlopes.jpg
+                    description: Eu sou o Jlopes e vou dar 20 a este grupo
+                    editor: 15
+                    location: 1
+
+                  - start_date: 2020/01/01 (today)
+                    end_date: 2020/01/04
+                    price: 10
+                    name: Sérgio Nunes
+                    image_path: ../asset/sergio.jpg
+                    description: Eu sou o Sergio e vou dar 20 a este grupo
+                    editor: 10
+                    location: 2
+        '401':
+          description: 'ERROR. Try again'
+        '404':
+          description: Events Not Found
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+
+  /api/event/this_week:
+    get:
+      operationId: M0404
+      summary: All events from that week
+      description: 'Getting all events that happen in that week. Acess: PUB'
+      tags:
+        - 'M04: Events'
+      responses:
+        '200':
+          description: 'OK. All event posts from that week returned'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:        
+                    start_date:
+                      type: "string"
+                      format: "date-time"
+                    end_date:
+                      type: "string"
+                      format: "date-time"
+                    price:          # <!--- form field name
+                      type: integer
+                      minimum: 0
+                    name:
+                      type: string
+                    image_path:
+                      type: string
+                    description:
+                      type: string
+                    editor:
+                      type: integer
+                    location:
+                      type: integer
+                  example:
+                  - start_date: 2020/01/6
+                    end_date: 2020/01/7
+                    price: 5
+                    name: João Lopes
+                    image_path: ../asset/jlopes.jpg
+                    description: Eu sou o Jlopes e vou dar 20 a este grupo
+                    editor: 15
+                    location: 1
+
+                  - start_date: 2020/01/03
+                    end_date: 2020/01/04
+                    price: 10
+                    name: Sérgio Nunes
+                    image_path: ../asset/sergio.jpg
+                    description: Eu sou o Sergio e vou dar 20 a este grupo
+                    editor: 10
+                    location: 2
+        '401':
+          description: 'ERROR. Try again'
+        '404':
+          description: Events Not Found
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+          
+          
+  /api/event/next_week:
+    get:
+      operationId: M0405
+      summary: All events from next week
+      description: 'Getting all events that happen in the following week. Acess: PUB'
+      tags:
+        - 'M04: Events'
+      responses:
+        '200':
+          description: 'OK. All event posts from next week returned'
+        '401':
+          description: 'ERROR. Try again'
+        '404':
+          description: Events Not Found
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default  
+
+  /api/event/this_month:
+    get:
+      operationId: M0406
+      summary: All events from that month
+      description: 'Getting all events that happen in that month. Acess: PUB'
+      tags:
+        - 'M04: Events'
+      responses:
+        '200':
+          description: 'OK. All event posts from that month returned'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:        
+                    start_date:
+                      type: "string"
+                      format: "date-time"
+                    end_date:
+                      type: "string"
+                      format: "date-time"
+                    price:          # <!--- form field name
+                      type: integer
+                      minimum: 0
+                    name:
+                      type: string
+                    image_path:
+                      type: string
+                    description:
+                      type: string
+                    editor:
+                      type: integer
+                    location:
+                      type: integer
+                  example:
+                  - start_date: 2020/01/30
+                    end_date: 2020/01/31
+                    price: 5
+                    name: João Lopes
+                    image_path: ../asset/jlopes.jpg
+                    description: Eu sou o Jlopes e vou dar 20 a este grupo
+                    editor: 15
+                    location: 1
+
+                  - start_date: 2020/01/20
+                    end_date: 2020/01/21
+                    price: 10
+                    name: Sérgio Nunes
+                    image_path: ../asset/sergio.jpg
+                    description: Eu sou o Sergio e vou dar 20 a este grupo
+                    editor: 10
+                    location: 2
+        '401':
+          description: 'ERROR. Try again'
+        '404':
+          description: Events Not Found
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+
+  /event/{id}:    
+    get:
+      operationId: M0407
+      summary: Find an event by ID
+      description: 'Getting an event. Acess: PUB'
+      tags:
+        - 'M04: Events'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            minimum: 0
+          required: true
+      responses:
+        '200':
+          description: 'OK. Event returned'
+        '401':
+          description: 'ERROR. Try again'
+        '404':
+          description: Event Not Found
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+  
+  
+    put:
+      operationId: M0408
+      summary: Updating an event
+      description: 'Updating an existing event post. Acess: EDI'
+      tags:
+        - 'M04: Events'
+        
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            minimum: 0
+          required: true
+          
+      requestBody:
+        required: true
+        content: 
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+
+                start_date:
+                  type: "string"
+                  format: "date-time"
+                end_date:
+                  type: "string"
+                  format: "date-time"
+                price:         
+                  type: integer
+                  minimum: 0
+                name:
+                  type: string
+                image_path:
+                  type: string
+                description:
+                  type: string
+                editor:
+                  type: integer
+                location:
+                  type: integer
+              required:
+                - start_date
+                - end_date
+                - price
+                - name
+                - image_path
+                - description
+                - editor
+                - location                
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Event post not found"
+        "405":
+          description: "Validation exception"
+        '204':
+          description: Updated Event
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+      
+    delete:
+      operationId: M0409
+      summary: Delete an event 
+      description: 'Deleting an existing event. Acess: EDI'
+      tags:
+        - 'M04: Events'
+        
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Event post not found"
+        '204':
+          description: Created
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+
+  /event/category:
+     post:
+      operationId: M0410
+      summary: Adding a new event category
+      description: 'Adding event category. Acess: EDT'
+      tags:
+        - 'M04: Events'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                category:
+                  type: "string"
+
+              required:
+                - category
+                
+      responses:
+        '201':
+          description: 'New event category added successfully'
+        '401':
+          description: 'ERROR. Try again'
+        '404':
+          description: Event Not Found
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+
+  /api/event/category/{category_id}:
+     get:
+      operationId: M0411
+      summary: Getting events by category
+      description: 'Getting events by category. Acess: PUB'
+      tags:
+        - 'M04: Events'
+      parameters:
+        - in: path
+          name: category_id
+          schema:
+            type: integer
+          required: true
+
+                
+      responses:
+        '200':
+          description: 'Ok. Events by category return'
+        '401':
+          description: 'ERROR. Try again'
+        '404':
+          description: Event Not Found
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+
+  /order:
+    post:
+      operationId: M0412
+      summary: Add an order
+      description: 'Adding a new order. Acess: USR'
+      tags:
+        - 'M04: Events'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                event_id:
+                  type: "integer"
+                number_tickets:
+                  type: "integer"
+                code:
+                  type: "string"
+
+              required:
+                - event_id
+                - number_tickets
+      responses:
+        '201':
+          description: 'Post created sucessfully'
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+  #Get vendor
+  #Edit Vendor
+  #Delete Vendor 
+  #Insert Vendor e products
+  #Filtrar por local
+
+
+  
+  /market:
+    get:
+      operationId: M0501
+      summary: All vendors
+      description: 'Getting all vendors. Acess: PUB'
+      tags:
+        - 'M05: Market'
+      responses:
+        '200':
+          description: 'OK. All vendors returned'
+        '401':
+          description: 'ERROR. Try again'
+        '404':
+          description: Vendors Not Found
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+    
+    post:
+      operationId: M0502
+      summary: Add Vendor and Products
+      description: 'Adding a new vendor and respective products. Acess: EDI'
+      tags:
+        - 'M05: Market'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Jorge Ribeiro
+                job:
+                  type: string
+                  example: Agricultor
+                location:
+                  type: integer
+                  example: 198772
+                image_path:
+                  type: string
+                  example: images/Photo.jpeg
+                description:
+                  type: string
+                  example: I Am Jorge and I am a Farmer
+                products:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Product'
+    
+              required:
+                - name
+                - image_path
+                - location
+                - products
+      responses:
+        '201':
+          description: 'Vendor created sucessfully'
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+  
+  
+  /market/{id}:    
+  
+    get:
+      operationId: M0504
+      summary: Find a vendor by ID
+      description: 'Getting a Vendor. Acess: PUB'
+      tags:
+        - 'M05: Market'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            minimum: 0
+          required: true
+      responses:
+        '200':
+          description: 'OK. Vendor returned'
+        '401':
+          description: 'ERROR. Try again'
+        '404':
+          description: Vendor Not Found
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+  
+  
+    put:
+      operationId: M0505
+      summary: Updating a Vendor
+      description: 'Updating an existing Vendor. Acess: EDI'
+      tags:
+        - 'M05: Market'
+        
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+            minimum: 0
+          required: true
+          
+      requestBody:
+        required: true
+        content: 
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Jorge Ribeiro
+                job:
+                  type: string
+                  example: Agricultor
+                location:
+                  type: integer
+                  example: 198772
+                image_path:
+                  type: string
+                  example: images/Photo.jpeg
+                description:
+                  type: string
+                  example: I Am Jorge and I am a Farmer
+                products:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Product'               
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Vendor not found"
+        "405":
+          description: "Validation exception"
+        '204':
+          description: Updated Vendor
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+      
+    delete:
+      operationId: M0506
+      summary: Delete a vendor 
+      description: 'Deleting an existing vendor. Acess: EDI'
+      tags:
+        - 'M05: Market'
+        
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "Vendor post not found"
+        '204':
+          description: Deleted Vendor
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+
+
+  /api/user/{search_word}:
+    get:
+      operationId: M0109
+      summary: 'Showing user profile'
+      description: 'Get user profile by ID. Acess: USR'
+      tags:
+        - 'M01: Authentication & User'
+      responses:
+        '200':
+          description: 'User returned successfully!'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    user_id:
+                      type: string
+                    first_name:
+                      type: string
+                    last_name:
+                      type: string
+                    email:
+                      type: string
+                    role:
+                      type: string
+                    image_path:
+                      type: string
+            
+                example:
+                  - user_id: 1
+                    first_name: 'João'
+                    last_name: 'Lopes'
+                    email: 'jlopes@fe.up.pt'
+                    role: 'Admin'
+                    image_path: '../assets/jlopes.jpg'
+        '404':
+          description: Not Found
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+          
+      parameters:
+        - in: path
+          name: search_word
+          schema:
+            type: string
+          required: true
+
+  /user/{id}/change_role:
+      patch:
+        operationId: M0110
+        summary: 'Changing user role'
+        description: 'Changing user role. Acess: ADM'
+        tags:
+          - 'M01: Authentication & User'
+        
+        requestBody:
+          required: true
+          content: 
+            application/x-www-form-urlencoded:
+              schema:
+                type: object
+                properties:
+                  role:
+                    type: string
+                required:
+                  - role
+
+        responses:
+          "400":
+            description: "Invalid ID supplied"
+          "404":
+            description: "User not found"
+          "405":
+            description: "Validation exception"
+          '204':
+            description: Changed
+          '429':
+            description: Too Many Requests
+          default:    
+            description: default 
+            
+        parameters:
+          - in: path
+            name: id
+            schema:
+              type: integer
+            required: true
+
+    
+  # TODO Ver os erros do put
+  /user:  
+    get:
+      operationId: M112
+      summary: User Profile
+      description: 'User Profile. Acess: USR'
+      tags:
+        - 'M01: Authentication & User'
+      responses:
+        '200':
+          description: 'OK. Show [UI01](https://git.fe.up.pt/lbaw/lbaw2021/lbaw2144/-/wikis/er#ui07-view/edit-profile)'
+        '404':
+          description: User Profile not Found
+        '429':
+          description: Too Many Requests in User Profile
+        default:
+          description: Default
+
+    put:
+      operationId: M0113
+      summary: Edit Profile
+      description: 'Edit user profile info based on the input received. Acess: EDI'
+      tags:
+        - 'M01: Authentication & User'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                email:          # <!--- form field name
+                  type: string
+                password:    # <!--- form field name
+                  type: string
+                confirm_password:
+                  type: string
+              required:
+                - first_name
+                - last_name
+                - email
+                - password
+                - confirm_password
+      responses:
+        '204':
+          description: Edited Profile successfully
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+          
+  /user/delete/{id}:
+              
+    delete:
+      operationId: M0205
+      summary: Delete User profile 
+      description: 'Deleting an existing user. Acess: ADM'
+      tags:
+        - 'M01: Authentication & User'
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          
+      responses:
+        "400":
+          description: "Invalid ID supplied"
+        "404":
+          description: "User not found"
+        '204':
+          description: Deleted User
+        '429':
+          description: Too Many Requests
+        default:
+          description: Default
+        
+
+
+
+components:
+  schemas:
+    Product:
+      x-swagger-router-model: io.swagger.petstore.model.Order
+      properties:
+        vendor_id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          description: Name of the product
+        image_path:
+          type: string
+          description: Image path 
+          example: images/product1.jpeg
+      xml:
+        name: product
+      type: object

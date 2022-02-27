@@ -1,0 +1,57 @@
+.form-page-new #upload-photo {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+    height: 0;
+    width: 0;
+}
+
+.form-page-new .image {
+    height: 100%;
+    width: 100%;
+    border-radius: var(--radius);
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+.display-photo {
+    height: 20px;
+}
+
+.form-page-new .image img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: var(--radius);
+    margin: rem;
+}
+
+#event_crud_page .image img,
+#blog_post_crud .image img {
+    height: 400px;
+}
+
+#vendor_crud .image img {
+    height: 300px;
+}
+
+.imageCol {
+    min-height: 250px;
+    margin-bottom: 1rem;
+}
+
+.form-page-new .image:hover {
+    opacity: 0.5;
+}
+
+.form-page-new .image label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    color: var(--dark-grey);
+}
+
+.form-page-new .image label i {
+    font-size: 3rem;
+}

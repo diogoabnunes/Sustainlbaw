@@ -1,0 +1,429 @@
+/*GLOBAL VARIABLES HERE*/
+
+:root {
+    --white: #ffffff;
+    --black: #101b0e;
+    --primary: #198754;
+    --secondary: #534d4e;
+    --radius: 0.5rem;
+}
+
+* {
+    font-family: "PT Sans", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h4,
+h5,
+h6 {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 600;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: var(--white);
+}
+
+.navbar {
+    background-color: var(--white);
+}
+
+body {
+    display: grid;
+    place-items: center;
+    grid-template-rows: 100px minmax(calc(100vh - 200px), 1fr) 100px;
+}
+
+footer {
+    width: 100%;
+    height: 100px;
+    text-align: center;
+    padding: 1rem;
+}
+
+.border-box {
+    box-sizing: border-box;
+}
+
+.main-height {
+    min-height: calc(100vh - 200px);
+}
+
+.go-back {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.25rem;
+    color: var(--secondary);
+    margin-bottom: 1rem;
+}
+
+.container-default {
+    max-width: 1600px;
+}
+
+.go-back:hover {
+    cursor: pointer;
+    color: var(--secondary);
+}
+
+/*------------------------------------
+- COLOR primary
+------------------------------------*/
+
+.alert-primary {
+    color: #051f13;
+    background-color: #83e8b9;
+    border-color: #72e4af;
+}
+
+.alert-primary hr {
+    border-top-color: #5de1a3;
+}
+
+.alert-primary .alert-link {
+    color: #000000;
+}
+
+.badge-primary {
+    color: #fff;
+    background-color: #198754;
+}
+
+.badge-primary[href]:hover,
+.badge-primary[href]:focus {
+    color: #fff;
+    background-color: #115b39;
+}
+
+.bg-primary {
+    background-color: #198754 !important;
+}
+
+a.bg-primary:hover,
+a.bg-primary:focus,
+button.bg-primary:hover,
+button.bg-primary:focus {
+    background-color: #115b39 !important;
+}
+
+.border-primary {
+    border-color: #198754 !important;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #136841;
+    border-color: #115b39;
+}
+
+.btn-primary:focus,
+.btn-primary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.5);
+}
+
+.btn-primary.disabled,
+.btn-primary:disabled {
+    color: #fff;
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #115b39;
+    border-color: #0e4f31;
+}
+
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.btn-primary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.5);
+}
+
+.btn-outline-primary {
+    color: #198754;
+    background-color: transparent;
+    border-color: #198754;
+}
+
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.btn-outline-primary:focus,
+.btn-outline-primary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.5);
+}
+
+.btn-outline-primary.disabled,
+.btn-outline-primary:disabled {
+    color: #198754;
+    background-color: transparent;
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled):active,
+.btn-outline-primary:not(:disabled):not(.disabled).active,
+.show > .btn-outline-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled):active:focus,
+.btn-outline-primary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-outline-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.5);
+}
+
+.list-group-item-primary {
+    color: #051f13;
+    background-color: #72e4af;
+}
+
+.list-group-item-primary.list-group-item-action:hover,
+.list-group-item-primary.list-group-item-action:focus {
+    color: #051f13;
+    background-color: #5de1a3;
+}
+
+.list-group-item-primary.list-group-item-action.active {
+    color: #fff;
+    background-color: #051f13;
+    border-color: #051f13;
+}
+
+.table-primary,
+.table-primary > th,
+.table-primary > td {
+    background-color: #72e4af;
+}
+
+.table-hover .table-primary:hover {
+    background-color: #5de1a3;
+}
+
+.table-hover .table-primary:hover > td,
+.table-hover .table-primary:hover > th {
+    background-color: #5de1a3;
+}
+
+.text-primary {
+    color: #198754 !important;
+}
+
+a.text-primary:hover,
+a.text-primary:focus {
+    color: #115b39 !important;
+}
+
+/*------------------------------------
+- COLOR secondary
+------------------------------------*/
+
+.alert-secondary {
+    color: #131212;
+    background-color: #b8b3b4;
+    border-color: #aea8a9;
+}
+
+.alert-secondary hr {
+    border-top-color: #a29b9c;
+}
+
+.alert-secondary .alert-link {
+    color: #000000;
+}
+
+.badge-secondary {
+    color: #fff;
+    background-color: #534d4e;
+}
+
+.badge-secondary[href]:hover,
+.badge-secondary[href]:focus {
+    color: #fff;
+    background-color: #383435;
+}
+
+.bg-secondary {
+    background-color: #534d4e !important;
+}
+
+a.bg-secondary:hover,
+a.bg-secondary:focus,
+button.bg-secondary:hover,
+button.bg-secondary:focus {
+    background-color: #383435 !important;
+}
+
+.border-secondary {
+    border-color: #534d4e !important;
+}
+
+.btn-secondary {
+    color: #fff;
+    background-color: #534d4e;
+    border-color: #534d4e;
+}
+
+.btn-secondary:hover {
+    color: #fff;
+    background-color: #403b3c;
+    border-color: #383435;
+}
+
+.btn-secondary:focus,
+.btn-secondary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(83, 77, 78, 0.5);
+}
+
+.btn-secondary.disabled,
+.btn-secondary:disabled {
+    color: #fff;
+    background-color: #534d4e;
+    border-color: #534d4e;
+}
+
+.btn-secondary:not(:disabled):not(.disabled):active,
+.btn-secondary:not(:disabled):not(.disabled).active,
+.show > .btn-secondary.dropdown-toggle {
+    color: #fff;
+    background-color: #383435;
+    border-color: #302d2d;
+}
+
+.btn-secondary:not(:disabled):not(.disabled):active:focus,
+.btn-secondary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-secondary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(83, 77, 78, 0.5);
+}
+
+.btn-outline-secondary {
+    color: #534d4e;
+    background-color: transparent;
+    border-color: #534d4e;
+}
+
+.btn-outline-secondary:hover {
+    color: #fff;
+    background-color: #534d4e;
+    border-color: #534d4e;
+}
+
+.btn-outline-secondary:focus,
+.btn-outline-secondary.focus {
+    box-shadow: 0 0 0 0.2rem rgba(83, 77, 78, 0.5);
+}
+
+.btn-outline-secondary.disabled,
+.btn-outline-secondary:disabled {
+    color: #534d4e;
+    background-color: transparent;
+}
+
+.btn-outline-secondary:not(:disabled):not(.disabled):active,
+.btn-outline-secondary:not(:disabled):not(.disabled).active,
+.show > .btn-outline-secondary.dropdown-toggle {
+    color: #fff;
+    background-color: #534d4e;
+    border-color: #534d4e;
+}
+
+.btn-outline-secondary:not(:disabled):not(.disabled):active:focus,
+.btn-outline-secondary:not(:disabled):not(.disabled).active:focus,
+.show > .btn-outline-secondary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(83, 77, 78, 0.5);
+}
+
+.list-group-item-secondary {
+    color: #131212;
+    background-color: #aea8a9;
+}
+
+.list-group-item-secondary.list-group-item-action:hover,
+.list-group-item-secondary.list-group-item-action:focus {
+    color: #131212;
+    background-color: #a29b9c;
+}
+
+.list-group-item-secondary.list-group-item-action.active {
+    color: #fff;
+    background-color: #131212;
+    border-color: #131212;
+}
+
+.table-secondary,
+.table-secondary > th,
+.table-secondary > td {
+    background-color: #aea8a9;
+}
+
+.table-hover .table-secondary:hover {
+    background-color: #a29b9c;
+}
+
+.table-hover .table-secondary:hover > td,
+.table-hover .table-secondary:hover > th {
+    background-color: #a29b9c;
+}
+
+.text-secondary {
+    color: #534d4e !important;
+}
+
+a.text-secondary:hover,
+a.text-secondary:focus {
+    color: #383435 !important;
+}
+
+/* change navbar background on collapse */
+
+@media (max-width: 1399px) {
+    .navbar-collapse {
+        background: white;
+        padding: 1em;
+    }
+    .searchNav,
+    .loginBtn {
+        margin-bottom: 1em;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar-collapse {
+        background: white;
+        padding: 1em;
+    }
+    .searchNav,
+    .loginBtn {
+        margin-bottom: 1em;
+    }
+    footer {
+        text-align: left;
+        height: 150px;
+        padding: 1em;
+    }
+}
+
+#dropdownMenuButton2 {
+    background-color: transparent;
+    border-width: 0;
+}

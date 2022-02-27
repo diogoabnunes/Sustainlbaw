@@ -1,0 +1,52 @@
+.Sign-page {
+    background-image: url(../assets/signUp_folhas.png);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.Sign-page .card .card-block {
+    padding: 3rem;
+}
+
+.Sign-page .form-group {
+    margin-bottom: 1.25em;
+}
+
+.Sign-page .form-material .form-control {
+    display: inline-block;
+    height: 43px;
+    width: 100%;
+    border-radius: 0;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 9px;
+    background-color: transparent;
+}
+
+.Sign-page .m-b-30 {
+    margin-bottom: 30px;
+}
+
+.Sign-page .form-check {
+    font-size: 15px;
+}
+
+.Sign-page .mt-4 {
+    margin-top: 4 !important;
+}
+
+.Sign-page .sign-head {
+    background-color: white;
+}
+
+.Sign-page .signP {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.Sign-page .linkSignP {
+    text-decoration: underline;
+    cursor: pointer;
+    color: var(--secondary);
+}

@@ -1,0 +1,44 @@
+.profileImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  margin-bottom: 12px;
+}
+
+#profile-page > section {
+  margin-bottom: 40px;
+}
+
+#profile-page .form-group {
+  margin-bottom: 30px;
+}
+
+#profile-page {
+  margin-top: auto;
+  margin-bottom: auto;
+  height: 100%;
+
+  background-color: white;
+  padding: 3rem;
+  padding-bottom: 1rem;
+  align-self: center;
+}
+
+.profile-image-upload {
+  width: 100%;
+  height: 100%;
+}
+
+.profile-image-upload img {
+  width: 100%;
+  max-width: 300px;
+  min-height: 250px;
+  height: 300px;
+  object-fit: cover;
+}
+
+.profile-image-upload img:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}

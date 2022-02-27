@@ -1,0 +1,8 @@
+docker-compose up
+php artisan serve
+
+php artisan db:seed
+php artisan config:clear
+
+php artisan make:controller PersonController --model Person
+php artisan make:controller PhotoController --resource
